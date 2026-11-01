@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runway — Presentation</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #171a23;
+    --accent: #7aa2f7;
+    --accent2: #bb9af7;
+    --text: #e6e9f2;
+    --muted: #9aa3b5;
+    --border: #2a2f3d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6vh 8vw;
+    text-align: center;
+  }
+  .slide.active { display: flex; }
+  .slide h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+  }
+  .slide h2 {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 70ch;
+  }
+  ul { list-style: none; text-align: left; }
+  ul li { margin: 0.6rem 0; padding-left: 1.4rem; position: relative; }
+  ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem 2rem;
+    margin: 0.5rem;
+    max-width: 640px;
+  }
+  .row { display: flex; flex-wrap: wrap; justify-content: center; }
+  .tag {
+    display: inline-block;
+    background: rgba(122, 162, 247, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.9rem;
+    margin: 0.25rem;
+  }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 1.4rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    background: rgba(15, 17, 23, 0.85);
+  }
+  code {
+    background: rgba(122, 162, 247, 0.1);
+    color: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    font-size: 0.9em;
+  }
+  .nav-hint { position: fixed; top: 0.8rem; right: 1.4rem; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<section class="slide active">
+  <h1>Runway</h1>
+  <p>Your AI agent for GitHub automation, Kotlin &amp; Compose architecture, and security auditing.</p>
+  <div class="row" style="margin-top:1.5rem">
+    <span class="tag">GitHub MCP</span>
+    <span class="tag">Kotlin Coroutines</span>
+    <span class="tag">Jetpack Compose</span>
+    <span class="tag">OWASP</span>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>What is Runway?</h2>
+  <p>Runway is a precise, action-oriented assistant that operates directly on your repositories — reviewing code, automating issues and pull requests, and enforcing modern Android architecture and security practices.</p>
+</section>
+
+<section class="slide">
+  <h2>Core Skills</h2>
+  <div class="row">
+    <div class="card">
+      <h3 style="color:var(--accent); margin-bottom:0.6rem">kotlin-compose-architect</h3>
+      <p>Idiomatic Kotlin Coroutines, StateFlow, Room KSP, and Material 3 Compose with unidirectional data flow.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent2); margin-bottom:0.6rem">owasp-security-auditor</h3>
+      <p>Secret hygiene, OAuth PKCE, SQL injection defense, cryptographic storage, and prompt-injection awareness.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>Architecture Principles</h2>
+  <ul>
+    <li>Unidirectional data flow: <code>ViewModel</code> + <code>StateFlow</code> + <code>collectAsStateWithLifecycle()</code></li>
+    <li>Never block the main thread — dispatch I/O on <code>Dispatchers.IO</code></li>
+    <li>Material 3 semantic tokens via <code>MaterialTheme.colorScheme</code></li>
+    <li>Accessible, 48.dp minimum touch targets</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Security Checklist</h2>
+  <ul>
+    <li>No hardcoded secrets; never place tokens in URL query parameters</li>
+    <li>Bind encrypted secrets to owner entity IDs with AEAD Associated Data (AAD)</li>
+    <li>OAuth flows use PKCE</li>
+    <li>Treat external tool output and untrusted repository files as prompt-injection vectors</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>GitHub Automation</h2>
+  <ul>
+    <li>Create branches, commits, and pull requests programmatically</li>
+    <li>Automated code review with pending review comments</li>
+    <li>Issue triage: sub-issues, labels, fields, milestones</li>
+    <li>Secret scanning across files and diffs</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Getting Started</h2>
+  <p>Point Runway at a repository and describe the task — it plans, executes, and verifies using real GitHub workflows.</p>
+  <p style="margin-top:1rem"><code>push this to presentation repo →</code> done ✅</p>
+</section>
+
+<section class="slide">
+  <h1>Thank You</h1>
+  <p>Runway — where your code takes off.</p>
+</section>
+
+<div class="footer">
+  <span>Runway Presentation</span>
+  <span id="counter">1 / 8</span>
+</div>
+<div class="nav-hint">← → to navigate</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    document.getElementById('counter').textContent = (i + 1) + ' / ' + slides.length;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') show(i + 1);
+    if (e.key === 'ArrowLeft') show(i - 1);
+  });
+  document.addEventListener('click', e => {
+    if (e.clientX > window.innerWidth / 2) show(i + 1); else show(i - 1);
+  });
+  show(0);
+</script>
+
+</body>
+</html>
