@@ -1,178 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Presentation</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            overflow: hidden;
-        }
-        
-        .slide {
-            width: 100vw;
-            height: 100vh;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .slide.active {
-            display: flex;
-        }
-        
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        p {
-            font-size: 24px;
-            line-height: 1.6;
-            text-align: center;
-            max-width: 800px;
-        }
-        
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-        }
-        
-        button {
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 2px solid white;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .slide-content {
-            max-width: 800px;
-            text-align: center;
-        }
-        
-        .slide-number {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 18px;
-            opacity: 0.7;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ♥</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Quicksand',sans-serif;
+    color:#fff; overflow:hidden; height:100vh;
+    background:linear-gradient(135deg,#2b1055,#7b2a8e,#e06a8a,#f5a3b5);
+    background-size:400% 400%;
+    animation:bgShift 18s ease infinite;
+  }
+  @keyframes bgShift {
+    0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+  }
+  .sky { position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  .heart-float {
+    position:absolute; bottom:-60px; opacity:0;
+    animation:floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%{ transform:translateY(0) rotate(0deg) scale(.8); opacity:0; }
+    10%{ opacity:.75; }
+    90%{ opacity:.4; }
+    100%{ transform:translateY(-110vh) rotate(35deg) scale(1.15); opacity:0; }
+  }
+  .slide {
+    position:fixed; inset:0; z-index:2;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; transform:scale(1.04);
+    transition:opacity .9s ease, transform .9s ease;
+    pointer-events:none; padding:5vh 7vw;
+  }
+  .slide.active { opacity:1; transform:scale(1); pointer-events:auto; }
+  .card {
+    max-width:680px; width:100%;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.25);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-radius:28px;
+    padding:clamp(28px,5vh,56px) clamp(28px,5vw,60px);
+    text-align:center;
+    box-shadow:0 24px 70px rgba(20,0,40,.45);
+    max-height:84vh; overflow-y:auto;
+  }
+  h1,h2 { font-family:'Playfair Display',serif; }
+  h1 { font-size:clamp(2.2rem,6vw,3.6rem); margin-bottom:.4em; font-weight:700; }
+  h2 { font-size:clamp(1.7rem,4.5vw,2.5rem); margin-bottom:.7em; font-weight:500; font-style:italic; }
+  p  { font-size:clamp(1rem,2.2vw,1.2rem); line-height:1.8; color:#ffeef3; font-weight:500; }
+  .reveal { opacity:0; transform:translateY(26px); transition:all .8s ease; }
+  .slide.active .reveal { opacity:1; transform:translateY(0); }
+  .slide.active .reveal:nth-child(1){transition-delay:.25s}
+  .slide.active .reveal:nth-child(2){transition-delay:.55s}
+  .slide.active .reveal:nth-child(3){transition-delay:.85s}
+  .slide.active .reveal:nth-child(4){transition-delay:1.15s}
+  .slide.active .reveal:nth-child(5){transition-delay:1.45s}
+  .photo {
+    width:100%; max-width:420px; border-radius:18px; margin:20px auto;
+    display:block; box-shadow:0 12px 40px rgba(0,0,0,.4);
+  }
+  .photo-placeholder {
+    width:100%; max-width:420px; margin:20px auto; padding:52px 18px;
+    border:2px dashed rgba(255,255,255,.5); border-radius:18px;
+    font-size:1rem; color:rgba(255,255,255,.85);
+  }
+  .big-heart { font-size:clamp(3rem,8vw,5rem); animation:pulse 1.4s ease-in-out infinite; display:inline-block; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+  .small-hearts { font-size:1.4rem; letter-spacing:12px; margin-top:18px; }
+  .small-hearts span { display:inline-block; animation:beat 1.6s ease-in-out infinite; }
+  .small-hearts span:nth-child(2){animation-delay:.2s}
+  .small-hearts span:nth-child(3){animation-delay:.4s}
+  .small-hearts span:nth-child(4){animation-delay:.6s}
+  @keyframes beat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .quote {
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:clamp(1.1rem,2.6vw,1.35rem); color:#ffd9e4;
+    border-left:3px solid rgba(255,255,255,.5);
+    padding-left:18px; text-align:left; margin:22px auto; max-width:480px; line-height:1.7;
+  }
+  #typewriter {
+    font-family:'Playfair Display',serif; font-size:clamp(1.4rem,3.6vw,2rem);
+    min-height:3.2em; color:#fff;
+  }
+  #typewriter .cursor { animation:blink .8s step-end infinite; }
+  @keyframes blink { 50%{opacity:0} }
+  nav {
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    display:flex; gap:14px; align-items:center; z-index:10;
+  }
+  .nav-btn {
+    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35);
+    color:#fff; width:52px; height:52px; border-radius:50%;
+    font-size:1.25rem; cursor:pointer; transition:all .25s; backdrop-filter:blur(8px);
+  }
+  .nav-btn:hover { background:rgba(255,255,255,.32); transform:scale(1.1); }
+  .dots { display:flex; gap:9px; }
+  .dot {
+    width:11px; height:11px; border-radius:50%;
+    background:rgba(255,255,255,.4); cursor:pointer; transition:all .3s;
+  }
+  .dot.active { background:#fff; transform:scale(1.35); box-shadow:0 0 10px #fff; }
+  #progress {
+    position:fixed; top:0; left:0; height:5px; z-index:10;
+    background:linear-gradient(90deg,#ffd1dc,#ff8fab,#fff);
+    width:0; transition:width .5s ease; border-radius:0 4px 4px 0;
+  }
+  .hint { position:fixed; top:18px; right:22px; z-index:10; opacity:.6; font-size:.85rem; }
+</style>
 </head>
 <body>
-    <div class="slide active" id="slide1">
-        <div class="slide-content">
-            <h1>Welcome to My Presentation</h1>
-            <p>This is a simple HTML presentation with smooth transitions and modern design.</p>
-        </div>
-        <div class="slide-number">1 / 5</div>
-    </div>
-    
-    <div class="slide" id="slide2">
-        <div class="slide-content">
-            <h2>Key Features</h2>
-            <p>• Responsive design that works on any screen size<br>
-               • Smooth slide transitions<br>
-               • Easy to customize and extend<br>
-               • No external dependencies required</p>
-        </div>
-        <div class="slide-number">2 / 5</div>
-    </div>
-    
-    <div class="slide" id="slide3">
-        <div class="slide-content">
-            <h2>How to Use</h2>
-            <p>Use the buttons at the bottom to navigate between slides, or use the arrow keys on your keyboard.</p>
-        </div>
-        <div class="slide-number">3 / 5</div>
-    </div>
-    
-    <div class="slide" id="slide4">
-        <div class="slide-content">
-            <h2>Customization</h2>
-            <p>You can easily customize the colors, fonts, and content to match your specific needs. Simply edit the HTML and CSS code.</p>
-        </div>
-        <div class="slide-number">4 / 5</div>
-    </div>
-    
-    <div class="slide" id="slide5">
-        <div class="slide-content">
-            <h1>Thank You!</h1>
-            <p>This concludes our presentation. Feel free to explore and modify the code to create your own presentations.</p>
-        </div>
-        <div class="slide-number">5 / 5</div>
-    </div>
-    
-    <div class="controls">
-        <button onclick="prevSlide()">Previous</button>
-        <button onclick="nextSlide()">Next</button>
-    </div>
-    
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === index) {
-                    slide.classList.add('active');
-                }
-            });
-            document.querySelector('.slide-number').textContent = `${index + 1} / ${slides.length}`;
-        }
-        
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
-        }
-        
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
-        }
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                nextSlide();
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                prevSlide();
-            }
-        });
-        
-        showSlide(currentSlide);
-    </script>
+
+<div class="sky" id="sky"></div>
+<div id="progress"></div>
+<div class="hint">← → or swipe ♥</div>
+
+<!-- SLIDE 1 -->
+<section class="slide active">
+  <div class="card">
+    <div class="reveal"><span class="big-heart">💌</span></div>
+    <div class="reveal"><h1>I Made You Something</h1></div>
+    <div class="reveal"><p>I've been carrying this around inside me for a while now. Tonight, I finally decided to stop keeping it to myself. So I turned it into something you can actually hold — one page at a time. Take your time with it. Every word is yours.</p></div>
+    <div class="reveal"><div class="small-hearts"><span>♥</span><span>♥</span><span>♥</span><span>♥</span></div></div>
+  </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>The Day Everything Shifted</h2></div>
+    <div class="reveal"><p>There's a moment I keep coming back to — the moment you stopped being just someone I knew, and started being someone I thought about. I don't think you even noticed it happen. But I did. Something quietly rearranged itself in my chest that day, and it never quite went back.</p></div>
+    <div class="reveal"><div class="photo-placeholder">📷 Put the photo of us here — the first one, or your favorite</div></div>
+    <div class="reveal"><p class="quote">"Some people arrive and quietly change the weather of your whole life."</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>It's the Small Things</h2></div>
+    <div class="reveal"><p>It's not one big thing about you. It's a hundred tiny ones. The way you laugh before the punchline because you can't hold it in. The way you get when you talk about something you love — like the whole world narrows down to that one thing. The way you notice people. Really notice them.</p></div>
+    <div class="reveal"><p>I could list a thousand of these, and it still wouldn't be the whole story. But here's the truth underneath all of them: being around you feels like exhaling.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>What You Don't See</h2></div>
+    <div class="reveal"><p>You have this habit of doubting yourself — of talking about the things you wish you were instead of seeing what you already are. So let me be the one to say it, plainly, just this once:</p></div>
+    <div class="reveal"><p class="quote">You are kind in a way that costs you something. You are braver than you give yourself credit for. And you matter to more people than you'll ever know — including me, more than you know.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>The Honest Part</h2></div>
+    <div class="reveal"><p>Here's the part that's hard to say out loud. Somewhere along the way, my thoughts started saving a seat for you. A song comes on and I wonder if you'd like it. Something funny happens and you're the first person I want to tell. I'll catch myself smiling at my phone over a message from you, and think — oh. Oh no. This is real.</p></div>
+    <div class="reveal"><div class="photo-placeholder">📷 A candid photo here — even a slightly blurry one tells the story</div></div>
+  </div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>What I'm Not Asking</h2></div>
+    <div class="reveal"><p>I want to be clear about something, because it matters: I'm not asking you to feel the same way. I'm not trying to rush anything, or make things weird, or turn a good thing into a complicated one. What we have is already worth a lot to me, and I don't want to lose it.</p></div>
+    <div class="reveal"><p>I just believe you deserve to know that someone sees you this way. That's all this is. No pressure. No expectations. Just the truth, finally out of my chest.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>If You Feel Even a Little…</h2></div>
+    <div class="reveal"><p>But if — and only if — some small part of you has ever wondered too… then maybe, just maybe, we could find out what this is. Slowly. No scripts, no pressure. A walk. A coffee. A terrible movie we both pretend to hate. I'd love any of it, as long as it's with you.</p></div>
+    <div class="reveal"><span class="big-heart">💗</span></div>
+  </div>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>Whatever You Say</h2></div>
+    <div class="reveal"><p>If the answer is yes — I'll be grinning about it for a week, fair warning. If the answer is no — I'll still be grateful you read this far, and nothing between us has to change unless you want it to. Either way, I meant every word here. You didn't imagine any of it.</p></div>
+    <div class="reveal"><p>So here it is, the only question left, typed out slow because my hands were shaking a little:</p></div>
+    <div class="reveal"><p id="typewriter"><span class="cursor">▌</span></p></div>
+  </div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><span class="big-heart">🌹</span></div>
+    <div class="reveal"><h1>Thank You</h1></div>
+    <div class="reveal"><p>For being exactly who you are. For every conversation I didn't want to end. For unknowingly making ordinary days feel like something worth remembering. Whatever happens next — knowing you is already one of the best things in my life.</p></div>
+    <div class="reveal"><p style="margin-top:14px;font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;">— Always, me ♥</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 10 (photo memories) -->
+<section class="slide">
+  <div class="card">
+    <div class="reveal"><h2>One Last Thing</h2></div>
+    <div class="reveal"><div class="photo-placeholder">📷 Your favorite photo together</div></div>
+    <div class="reveal"><div class="photo-placeholder">📷 And one more, just because</div></div>
+    <div class="reveal"><p>Replace these with real photos of us — the imperfect ones are always the best ones. ♥</p></div>
+  </div>
+</section>
+
+<nav>
+  <button class="nav-btn" id="prev">‹</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="next">›</button>
+</nav>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const dotsBox=document.getElementById('dots');
+const progress=document.getElementById('progress');
+let cur=0, typed=false;
+
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.onclick=()=>go(i);
+  dotsBox.appendChild(d);
+});
+const dots=[...dotsBox.children];
+
+function go(n){
+  n=Math.max(0,Math.min(slides.length-1,n));
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+  progress.style.width=((cur+1)/slides.length*100)+'%';
+  if(cur===7) typeLine();
+}
+
+document.getElementById('next').onclick=()=>go(cur+1);
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ') go(cur+1);
+  if(e.key==='ArrowLeft') go(cur-1);
+});
+let tx=0;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(dx<-50) go(cur+1); if(dx>50) go(cur-1);
+});
+
+const msg="Will you go out with me sometime? ♥";
+function typeLine(){
+  if(typed) return; typed=true;
+  const el=document.getElementById('typewriter');
+  el.innerHTML='<span class="cursor">▌</span>';
+  let i=0;
+  setTimeout(function tick(){
+    if(i<=msg.length){
+      el.innerHTML=msg.slice(0,i)+'<span class="cursor">▌</span>';
+      i++; setTimeout(tick,80);
+    }
+  },600);
+}
+
+// floating hearts & petals background
+const sky=document.getElementById('sky');
+const glyphs=['♥','💗','🌸','✨','💕','🌹'];
+for(let i=0;i<26;i++){
+  const s=document.createElement('div');
+  s.className='heart-float';
+  s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+  s.style.left=Math.random()*100+'vw';
+  s.style.fontSize=(14+Math.random()*28)+'px';
+  s.style.animationDuration=(8+Math.random()*12)+'s';
+  s.style.animationDelay=(Math.random()*12)+'s';
+  sky.appendChild(s);
+}
+progress.style.width=(1/slides.length*100)+'%';
+</script>
 </body>
 </html>
